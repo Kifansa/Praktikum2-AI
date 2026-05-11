@@ -143,17 +143,14 @@ async function loadKeywords() {
             const item = document.createElement('div');
             item.className = 'keyword-item';
             item.innerHTML = `
-<div class="keyword-info">
-<strong>${keyword}</strong>
-<p>${response}</p>
-</div>
-<div class="keyword-actions">
-<button class="btn"
-onclick="editKeyword('${keyword}')">Edit</button>
-<button class="btn btn-danger"
-onclick="deleteKeyword('${keyword}')">Delete</button>
-</div>
-`;
+            <div class="keyword-info"> 
+                <strong>${keyword}</strong> <p>${response}</p>
+            </div>
+            <div class="keyword-actions">
+                <button class="btn" onclick="editKeyword('${keyword}')">Edit</button>
+                <button class="btn btn-danger" onclick="deleteKeyword('${keyword}')">Delete</button>
+            </div>
+            `;
             container.appendChild(item);
         });
     } catch (error) {

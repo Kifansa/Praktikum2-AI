@@ -94,14 +94,11 @@ async function getAIResponse(message, contextItems = [], behavior =
         const systemParts = [];
         if (behavior.system_instructions)
             systemParts.push(behavior.system_instructions);
-        systemParts.push(`Jawab hanya menggunakan konteks berikut. Jika
-konteks tidak memadai, jawab: ${behavior.fallback_response}`);
+        systemParts.push(`Jawab hanya menggunakan konteks berikut. Jika konteks tidak memadai, jawab: ${behavior.fallback_response}`);
 
-        systemParts.push(`Jawab maksimal ${behavior.max_sentences || 2}
-kalimat. Bahasa: ${behavior.language || 'id'}.`);
+        systemParts.push(`Jawab maksimal ${behavior.max_sentences || 2} kalimat. Bahasa: ${behavior.language || 'id'}.`);
         const systemMessage = systemParts.join(' ');
-        const userMessage = `Konteks:\n${contextBlock}\n\nPertanyaan:
-${message}`;
+        const userMessage = `Konteks:\n${contextBlock}\n\nPertanyaan: ${message}`;
         const completion = await groq.chat.completions.create({
             messages: [
                 { role: 'system', content: systemMessage },
@@ -189,8 +186,7 @@ function initializeClient() {
     const handleIncomingMessage = async (msg, eventName) => {
         try {
             console.log(
-                ` ${eventName} event: from=${msg.from}, fromMe=${msg.fromMe},
-body=${JSON.stringify(msg.body)}`
+                ` ${eventName} event: from=${msg.from}, fromMe=${msg.fromMe}, body=${JSON.stringify(msg.body)}`
             );
             const messageId = msg && msg.id && msg.id._serialized ?
                 msg.id._serialized : null;
@@ -211,8 +207,7 @@ body=${JSON.stringify(msg.body)}`
                 msg.from.endsWith('@lid');
             const isNotStatus = !msg.from.endsWith('@status');
             if (!isPersonalChat || !isNotStatus) {
-                console.log(` Ignoring non-personal or status message:
-from=${msg.from}`);
+                console.log(` Ignoring non-personal or status message: from=${msg.from}`);
                 return;
             }
             console.log(` Personal Message from ${msg.from}: ${msg.body}`);
@@ -234,8 +229,7 @@ from=${msg.from}`);
                     allDocuments,
                     Number(process.env.RAG_TOP_K || 3)
                 );
-                console.log(`🔍 RAG Retrieved ${contextItems.length} relevant
-context(s)`);
+                console.log(`🔍 RAG Retrieved ${contextItems.length} relevant context(s)`);
                 const timeoutPromise = new Promise((_, reject) =>
                     setTimeout(() => reject(new Error('AI response timeout')),
                         15000)
@@ -248,8 +242,7 @@ context(s)`);
                     ]);
                     if (aiResponse) {
                         await msg.reply(aiResponse);
-                        console.log(` Replied with AI response (RAG contexts:
-${contextItems.length})`);
+                        console.log(` Replied with AI response (RAG contexts: ${contextItems.length})`);
                     } else {
                         await msg.reply('Maaf, saya tidak memahami pesan Anda. Silakan coba lagi.');
                     }

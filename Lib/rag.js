@@ -135,8 +135,7 @@ class RAGEngine {
         return contextItems
             .map((item, idx) => {
                 const cleanText = item.text.replace(/\s+/g, ' ').trim();
-                return `[Konteks ${idx + 1}] Sumber:
-${item.source}\n${cleanText}`;
+                return `[Konteks ${idx + 1}] Sumber: ${item.source}\n${cleanText}`;
             })
             .join('\n\n');
     }
